@@ -1,0 +1,31 @@
+﻿<table style="padding-left: 10px; width: 100%" class="exceptiondata">
+  <tr>
+    <td style="width: 20%">{{exception.Type}}</td>
+    <td><a href="/entries/{{exception.LogEntry.Id}}">{{exception.LogEntry.Level}} : {{exception.LogEntry.Message}}</a></td>
+  </tr>
+  <tr>
+    <td>TargetSite:</td>
+    <td>{{exception.TargetSite}}</td>
+  </tr>
+  <tr>
+    <td>Time Stamp:</td>
+    <td>{{exception.TimeStamp | date:'yyyy/MM/dd hh:mm:ss a'}}</td>
+  </tr>
+  <tr>
+    <td>Message:</td>
+    <td>{{exception.Message}}</td>
+  </tr>
+  <tr>
+    <td>Source:</td>
+    <td>{{exception.Source}}</td>
+  </tr>
+  <tr>
+    <td>Level:</td>
+    <td>{{exception.Level}}</td>
+  </tr>
+  <tr>
+    <td colspan="2">
+      <code style="white-space: pre-wrap; word-wrap: break-word; word-break: break-all;">{{exception.StackTrace}}</code>
+    </td>
+  </tr>
+</table>

@@ -1,0 +1,9 @@
+﻿<td>{{entry.Host}}</td>
+<td>{{entry.LoggerName}}</td>
+<td>{{entry.Level}}</td>
+<td>{{entry.TimeStamp | date:'yyyy/MM/dd hh:mm:ss a'}}</td>
+<td expandtext model="entry.Message"></td>
+<td>{{entry.Thread}}</td>
+<td><a ng-show="entry.RequestInfo" href="/http/{{entry.RequestInfo.Id}}">{{entry.RequestInfo.ScriptName}}</a></td>
+<td><a ng-show="entry.Exceptions.length != 0" href="/exceptions/entry/{{entry.Id}}" title="{{entry.Exceptions.length}}">Exceptions ({{entry.Exceptions.length}})</a></td>
+<td><a href="/entries/{{entry.Id}}">View</a></td>

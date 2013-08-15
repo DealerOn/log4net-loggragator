@@ -1,0 +1,32 @@
+﻿<div ng-show="data != undefined">
+  <div style="padding: 5px;">
+    <select ng-model="script">
+      <option value='' disabled selected style='display: none;'>Script Name</option>
+      <option ng-repeat="value in scriptnames" value="{{value}}">{{value}}</option>
+    </select>
+    <select ng-model="host">
+      <option value='' disabled selected style='display: none;'>Host</option>
+      <option ng-repeat="value in hosts" value="{{value}}">{{value}}</option>
+    </select>
+    <input type="text" ng-model="address" placeholder="Remote Address" />
+    <input type="text" ng-model="startdate" datepicker placeholder="Start Date" size="20" />
+    <input type="text" ng-model="enddate" datepicker placeholder="End Date" size="20" />
+    <input type="text" ng-model="referer" placeholder="Referer" />
+    <input type="text" ng-model="query" placeholder="QueryString" />
+    <input type="text" ng-model="url" placeholder="Url" />
+    <input type="text" ng-model="agent" placeholder="UserAgent" />
+    <input type="button" ng-click="Search()" value="Search" />
+    <input type="button" ng-click="ResetSearch()" value="Clear" />
+  </div>
+  <div ng-include="'/Templates/Partials/pagination.html'"></div>
+  <br/>
+  <div ng-repeat="request in data" style="opacity: {{opacity}}" ng-include="'/Templates/Partials/request.html'" />
+</div>
+
+<div ng-show="request">
+  <div ng-include="'/Templates/Partials/request.html'" />
+  <table style="padding-left: 10px; width: 100%; text-align: left" class="requestdata">
+    <tr ng-include="'/Templates/Partials/entry-header.html'" />
+    <tr ng-repeat="entry in request.LogEntries" ng-class-even="'tr-even'" ng-class-odd="'tr-odd'" ng-include="'/Templates/Partials/entry-tr.html'" />
+  </table>
+</div>

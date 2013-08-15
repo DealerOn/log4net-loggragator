@@ -1,0 +1,251 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="log4netModel.Store" Alias="Self" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.5" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="log4netModelStoreContainer">
+          <EntitySet Name="Exception" EntityType="log4netModel.Store.Exception" store:Type="Tables" Schema="log4net" />
+          <EntitySet Name="LogEntry" EntityType="log4netModel.Store.LogEntry" store:Type="Tables" Schema="log4net" />
+          <EntitySet Name="RequestInfo" EntityType="log4netModel.Store.RequestInfo" store:Type="Tables" Schema="log4net" />
+          <AssociationSet Name="Exception_ibfk_1" Association="log4netModel.Store.Exception_ibfk_1">
+            <End Role="LogEntry" EntitySet="LogEntry" />
+            <End Role="Exception" EntitySet="Exception" />
+          </AssociationSet>
+          <AssociationSet Name="LogEntry_ibfk_1" Association="log4netModel.Store.LogEntry_ibfk_1">
+            <End Role="RequestInfo" EntitySet="RequestInfo" />
+            <End Role="LogEntry" EntitySet="LogEntry" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Exception">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="LogEntryId" Type="int" Nullable="false" />
+          <Property Name="Level" Type="int" Nullable="false" />
+          <Property Name="Type" Type="varchar" Nullable="false" MaxLength="100" />
+          <Property Name="Message" Type="text" Nullable="false" />
+          <Property Name="Source" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="TargetSite" Type="varchar" Nullable="false" MaxLength="100" />
+          <Property Name="StackTrace" Type="text" Nullable="false" />
+          <Property Name="TimeStamp" Type="timestamp" Nullable="false" />
+        </EntityType>
+        <EntityType Name="LogEntry">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="RequestId" Type="int" />
+          <Property Name="LoggerName" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="TimeStamp" Type="timestamp" Nullable="false" />
+          <Property Name="Message" Type="varchar" Nullable="false" MaxLength="255" />
+          <Property Name="Thread" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="Level" Type="varchar" Nullable="false" MaxLength="10" />
+          <Property Name="Host" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="RequestInfo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Referer" Type="text" Nullable="false" />
+          <Property Name="Url" Type="text" Nullable="false" />
+          <Property Name="QueryString" Type="text" Nullable="false" />
+          <Property Name="Host" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="UserAgent" Type="text" Nullable="false" />
+          <Property Name="RemoteAddress" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="ScriptName" Type="varchar" Nullable="false" MaxLength="100" />
+          <Property Name="TimeStamp" Type="timestamp" Nullable="false" />
+          <Property Name="Method" Type="varchar" Nullable="false" MaxLength="10" />
+        </EntityType>
+        <Association Name="Exception_ibfk_1">
+          <End Role="LogEntry" Type="log4netModel.Store.LogEntry" Multiplicity="1" />
+          <End Role="Exception" Type="log4netModel.Store.Exception" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LogEntry">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Exception">
+              <PropertyRef Name="LogEntryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="LogEntry_ibfk_1">
+          <End Role="RequestInfo" Type="log4netModel.Store.RequestInfo" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="LogEntry" Type="log4netModel.Store.LogEntry" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RequestInfo">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="LogEntry">
+              <PropertyRef Name="RequestId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="log4netModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="LoggingEF" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="LogExceptions" EntityType="log4netModel.LogException" />
+          <EntitySet Name="LogEntries" EntityType="log4netModel.LogEntry" />
+          <EntitySet Name="RequestInfoes" EntityType="log4netModel.RequestInfo" />
+          <AssociationSet Name="Exception_ibfk_1" Association="log4netModel.Exception_ibfk_1">
+            <End Role="LogEntry" EntitySet="LogEntries" />
+            <End Role="Exception" EntitySet="LogExceptions" />
+          </AssociationSet>
+          <AssociationSet Name="LogEntry_ibfk_1" Association="log4netModel.LogEntry_ibfk_1">
+            <End Role="RequestInfo" EntitySet="RequestInfoes" />
+            <End Role="LogEntry" EntitySet="LogEntries" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="LogException">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LogEntryId" Type="Int32" Nullable="false" />
+          <Property Name="Level" Type="Int32" Nullable="false" />
+          <Property Name="Type" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
+          <Property Name="Message" Type="String" Nullable="false" MaxLength="65535" Unicode="false" FixedLength="false" />
+          <Property Name="Source" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="TargetSite" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
+          <Property Name="StackTrace" Type="String" Nullable="false" MaxLength="65535" Unicode="false" FixedLength="false" />
+          <Property Name="TimeStamp" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="LogEntry" Relationship="log4netModel.Exception_ibfk_1" FromRole="Exception" ToRole="LogEntry" />
+        </EntityType>
+        <EntityType Name="LogEntry">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RequestId" Type="Int32" />
+          <Property Name="LoggerName" Type="String" Nullable="false" MaxLength="128" Unicode="false" FixedLength="false" />
+          <Property Name="TimeStamp" Type="DateTime" Nullable="false" />
+          <Property Name="Message" Type="String" Nullable="false" MaxLength="512" Unicode="false" FixedLength="false" />
+          <Property Name="Thread" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="Level" Type="String" Nullable="false" MaxLength="10" Unicode="false" FixedLength="false" />
+          <NavigationProperty Name="Exceptions" Relationship="log4netModel.Exception_ibfk_1" FromRole="LogEntry" ToRole="Exception" />
+          <NavigationProperty Name="RequestInfo" Relationship="log4netModel.LogEntry_ibfk_1" FromRole="LogEntry" ToRole="RequestInfo" />
+          <Property Type="String" Name="Host" MaxLength="256" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="RequestInfo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Referer" Type="String" Nullable="false" MaxLength="65535" Unicode="false" FixedLength="false" />
+          <Property Name="Url" Type="String" Nullable="false" MaxLength="65535" Unicode="false" FixedLength="false" />
+          <Property Name="QueryString" Type="String" Nullable="false" MaxLength="65535" Unicode="false" FixedLength="false" />
+          <Property Name="Host" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="UserAgent" Type="String" Nullable="false" MaxLength="65535" Unicode="false" FixedLength="false" />
+          <Property Name="RemoteAddress" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="ScriptName" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
+          <Property Name="TimeStamp" Type="DateTime" Nullable="false" />
+          <Property Name="Method" Type="String" Nullable="false" MaxLength="10" Unicode="false" FixedLength="false" />
+          <NavigationProperty Name="LogEntries" Relationship="log4netModel.LogEntry_ibfk_1" FromRole="RequestInfo" ToRole="LogEntry" />
+        </EntityType>
+        <Association Name="Exception_ibfk_1">
+          <End Role="LogEntry" Type="log4netModel.LogEntry" Multiplicity="1" />
+          <End Role="Exception" Type="log4netModel.LogException" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LogEntry">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Exception">
+              <PropertyRef Name="LogEntryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="LogEntry_ibfk_1">
+          <End Role="RequestInfo" Type="log4netModel.RequestInfo" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="LogEntry" Type="log4netModel.LogEntry" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RequestInfo">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="LogEntry">
+              <PropertyRef Name="RequestId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="log4netModelStoreContainer" CdmEntityContainer="LoggingEF">
+          <EntitySetMapping Name="LogExceptions">
+            <EntityTypeMapping TypeName="log4netModel.LogException">
+              <MappingFragment StoreEntitySet="Exception">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="LogEntryId" ColumnName="LogEntryId" />
+                <ScalarProperty Name="Level" ColumnName="Level" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="Source" ColumnName="Source" />
+                <ScalarProperty Name="TargetSite" ColumnName="TargetSite" />
+                <ScalarProperty Name="StackTrace" ColumnName="StackTrace" />
+                <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LogEntries">
+            <EntityTypeMapping TypeName="log4netModel.LogEntry">
+              <MappingFragment StoreEntitySet="LogEntry">
+                <ScalarProperty Name="Host" ColumnName="Host" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="RequestId" ColumnName="RequestId" />
+                <ScalarProperty Name="LoggerName" ColumnName="LoggerName" />
+                <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="Thread" ColumnName="Thread" />
+                <ScalarProperty Name="Level" ColumnName="Level" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RequestInfoes">
+            <EntityTypeMapping TypeName="log4netModel.RequestInfo">
+              <MappingFragment StoreEntitySet="RequestInfo">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Referer" ColumnName="Referer" />
+                <ScalarProperty Name="Url" ColumnName="Url" />
+                <ScalarProperty Name="QueryString" ColumnName="QueryString" />
+                <ScalarProperty Name="Host" ColumnName="Host" />
+                <ScalarProperty Name="UserAgent" ColumnName="UserAgent" />
+                <ScalarProperty Name="RemoteAddress" ColumnName="RemoteAddress" />
+                <ScalarProperty Name="ScriptName" ColumnName="ScriptName" />
+                <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+                <ScalarProperty Name="Method" ColumnName="Method" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

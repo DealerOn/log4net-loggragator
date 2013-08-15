@@ -1,0 +1,74 @@
+﻿<div ng-hide="entry">
+  <form>
+    <table style="width: 100%; text-align: left">
+      <tr>
+        <td>
+          <select ng-model="host">
+            <option value='' disabled selected style='display: none;'>Host Name</option>
+            <option ng-repeat="name in hostnames" value="{{name}}">{{name}}</option>
+          </select>
+        </td>
+        <td>
+          <select ng-model="loggername">
+            <option value='' disabled selected style='display: none;'>Logger Name</option>
+            <option ng-repeat="name in loggernames" value="{{name}}">{{name}}</option>
+          </select>
+        </td>
+        <td>
+          <select ng-model="level">
+            <option value='' disabled selected style='display: none;'>Log Level</option>
+            <option ng-repeat="level in loglevels" value="{{level}}">{{level}}</option>
+          </select>
+        </td>
+        <td>
+          <input type="text" ng-model="startdate" datepicker placeholder="Start Date" size="15" />
+          <input type="text" ng-model="enddate" datepicker placeholder="End Date" size="15" />
+        </td>
+        <td>
+          <input type="text" ng-model="message" placeholder="Message" /></td>
+        <td>
+          <input type="text" ng-model="thread" placeholder="Thread" size="5" /></td>
+        <td>
+          <input type="checkbox" id="request" ng-model="request" /><label for="request">Request</label></td>
+        <td colspan="2">
+          <input type="submit" ng-click="Search()" value="Search" />
+          <input type="button" ng-click="ResetSearch()" value="Clear" />
+        </td>
+      </tr>
+      <tr>
+        <td colspan="9">
+          <div ng-include="'/Templates/Partials/pagination.html'"></div>
+        </td>
+      </tr>
+      <tr ng-include="'/Templates/Partials/entry-header.html'"/>
+      <tr ng-repeat="entry in data" ng-class-even="'tr-even'" ng-class-odd="'tr-odd'" style="opacity: {{opacity}}"  ng-include="'/Templates/Partials/entry-tr.html'"/>
+    </table>
+  </form>
+</div>
+
+<div ng-show="entry">
+  <table style="padding-left: 10px; width: 100%" class="entrydata">
+    <tr>
+      <td style="width: 20%">Logger Name:</td>
+      <td>{{entry.LoggerName}}</td>
+    </tr>
+    <tr>
+      <td>LogLevel:</td>
+      <td>{{entry.Level}}</td>
+    </tr>
+    <tr>
+      <td>TimeStamp:</td>
+      <td>{{entry.TimeStamp | date:'yyyy/MM/dd hh:mm:ss a'}}</td>
+    </tr>
+    <tr>
+      <td>Message:</td>
+      <td>{{entry.Message}}</td>
+    </tr>
+    <tr>
+      <td>Thread:</td>
+      <td>{{entry.Thread}}</td>
+    </tr>
+  </table>
+  <div ng-include="'/Templates/Partials/request.html'" ng-show="request"></div>
+  <div ng-include="'/Templates/Partials/exception.html'" ng-repeat="exception in exceptions"></div>
+</div>

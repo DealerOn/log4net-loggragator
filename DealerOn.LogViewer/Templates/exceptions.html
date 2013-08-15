@@ -1,0 +1,30 @@
+﻿<div ng-show="data != undefined">
+  <form>
+    <div style="padding: 5px;">
+      <select ng-model="type">
+        <option value='' disabled selected style='display: none;'>Type</option>
+        <option ng-repeat="value in extypes" value="{{value}}">{{value}}</option>
+      </select>
+      <select ng-model="site" style="width: 200px">
+        <option value='' disabled selected style='display: none;'>Target Site</option>
+        <option ng-repeat="value in targetsites" value="{{value}}">{{value}}</option>
+      </select>
+      <input type="text" ng-model="startdate" datepicker placeholder="Start Date" size="20" />
+      <input type="text" ng-model="enddate" datepicker placeholder="End Date" size="20" />
+      <input type="text" ng-model="message" placeholder="Message" />
+      <select ng-model="source">
+        <option value='' disabled selected style='display: none;'>Source</option>
+        <option ng-repeat="value in exsources" value="{{value}}">{{value}}</option>
+      </select>
+      <input type="text" ng-model="trace" placeholder="Stack Trace" />
+      <input type="submit" ng-click="Search()" value="Search" />
+      <input type="button" ng-click="ResetSearch()" value="Clear" />
+    </div>
+  </form>
+  <div ng-include="'/Templates/Partials/pagination.html'"></div><br />
+
+  <div ng-repeat="exception in data" style="opacity: {{opacity}}" ng-include="'/Templates/Partials/exception.html'" />
+</div>
+
+<div ng-repeat="exception in exceptions" ng-include="'/Templates/Partials/exception.html'" ng-show="exceptions != undefined" />
+<div ng-include="'/Templates/Partials/exception.html'" ng-show="exception" />

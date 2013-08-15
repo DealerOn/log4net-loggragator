@@ -1,0 +1,12 @@
+﻿<div ng-show="data.length > 0">
+  <div style="float: left; padding-left: 10px">
+    Showing {{((page-1) * perpage)+1}} to {{last}} of {{inlineCount}}
+  </div>
+  <div style="text-align: right; padding-right: 10px; float: right">
+    <a href="" style="text-decoration: none; color: black" ng-click="PrevPage()" ng-show="page > 1">&larr;</a>
+    {{page}}
+    <a href="" style="text-decoration: none; color: black" ng-click="NextPage()" ng-show="page < lastpage">&rarr;</a>
+    <span ng-show="page >= lastpage" style="visibility: hidden">&rarr;</span>
+  </div>
+</div>
+<div ng-show="data.length <= 0">No Results</div>

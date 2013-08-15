@@ -1,0 +1,38 @@
+﻿<table style="padding-left: 10px; width: 100%" class="requestdata">
+  <tr>
+    <td style="width: 20%">Script Name:</td>
+    <td>{{request.ScriptName}}<a style="float: right; padding-right: 10px" href="/http/{{request.Id}}">View</a></td>
+  </tr>
+  <tr>
+    <td>Host:</td>
+    <td><span>{{request.Host}}</span></td>
+  </tr>
+  <tr>
+    <td>RemoteAddress:</td>
+    <td><span ng-dblclick="Set('address', request.RemoteAddress)">{{request.RemoteAddress}}</span></td>
+  </tr>
+  <tr>
+    <td>Time Stamp:</td>
+    <td>{{request.TimeStamp | date:'yyyy/MM/dd hh:mm:ss a'}}</td>
+  </tr>
+  <tr>
+    <td>Referer:</td>
+    <td><span ng-dblclick="Set('referer', request.Referer)">{{request.Referer}}</span></td>
+  </tr>
+  <tr>
+    <td>QueryString:</td>
+    <td><span ng-dblclick="Set('query', request.QueryString)" class="wrap">{{request.QueryString}}</span></td>
+  </tr>
+  <tr>
+    <td>Url:</td>
+    <td><span ng-dblclick="Set('url', request.Url)" class="wrap">{{request.Url}}</span></td>
+  </tr>
+  <tr>
+    <td>UserAgent:</td>
+    <td><span ng-dblclick="Set('agent', request.UserAgent)">{{request.UserAgent}}</span></td>
+  </tr>
+  <tr>
+    <td>Entries:</td>
+    <td>{{request.LogEntries.length}}</td>
+  </tr>
+</table>
