@@ -1,5 +1,6 @@
 ﻿function ExceptionsController($scope, $routeParams, DataProvider) {
   var basequery = DataProvider.NewExceptionsQuery();
+  basequery = basequery.select("Type, TargetSite, TimeStamp, Message, Source, StackTrace, Level, LogEntry");
   $scope.exceptions = undefined;
   if ($routeParams.entryid != undefined) {
     basequery = basequery.where("LogEntryId", "==", parseInt($routeParams.entryid, 10));

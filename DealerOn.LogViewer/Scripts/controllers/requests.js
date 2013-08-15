@@ -1,5 +1,6 @@
 ﻿function RequestsController($scope, $routeParams, DataProvider) {
   var basequery = DataProvider.NewRequestsQuery();
+  basequery = basequery.select("Id, ScriptName, LogEntries, Host, RemoteAddress, TimeStamp, Referer, QueryString, Url, UserAgent");
   if ($routeParams.id != undefined) {
     $scope.request = undefined;
     basequery = basequery.where("Id", "==", parseInt($routeParams.id));

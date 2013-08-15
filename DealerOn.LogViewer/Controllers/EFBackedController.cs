@@ -29,6 +29,9 @@ namespace LogViewer.Controllers
     public EFBackedController()
     {
       DC = new LoggingEF(ConnectionString);
+      DC.Configuration.ProxyCreationEnabled = false;
+      DC.Configuration.AutoDetectChangesEnabled = false;
+      DC.Configuration.LazyLoadingEnabled = false;
     }
 
     protected override void Dispose(bool disposing)

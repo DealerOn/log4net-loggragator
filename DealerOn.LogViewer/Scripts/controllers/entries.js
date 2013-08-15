@@ -25,11 +25,11 @@
       if ($scope.request == true) {
         newquery = newquery.where("RequestInfo", "!=", null);
       }
-      if ($scope.host != undefined && $scope.host) {
+      if ($scope.host != undefined && $scope.host != "Any") {
         newquery = newquery.where("Host", "==", $scope.host);
       }
       //Forces proper serialziation
-      return newquery.select("RequestInfo, LoggerName, TimeStamp, Message, Thread, Host, Exceptions, Level, Id").orderBy("Id desc");
+      return newquery;
     };
     var resetsearch = function () {
       $scope.loggername = undefined;
@@ -42,8 +42,12 @@
       $scope.host = undefined;
     };
 
+    var select = function(query) {
+      return query.select("RequestInfo, LoggerName, TimeStamp, Message, Thread, Host, Exceptions, Level, Id").orderBy("Id desc");
+    };
+
     $scope.perpage = 30;
-    setupPagedController(basequery, $scope, DataProvider, search, resetsearch);
+    setupPagedController(basequery, $scope, DataProvider, search, resetsearch, select);
     
     $scope.loglevels = undefined;
     DataProvider.NewLevelsQuery().execute().then(function (data) {

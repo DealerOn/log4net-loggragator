@@ -1,6 +1,10 @@
-﻿function setupPagedController(basequery, $scope, DataProvider, Search, ResetSearch) {
+﻿function setupPagedController(basequery, $scope, DataProvider, Search, ResetSearch, select) {
   $scope.data = undefined;
   $scope.page = 1;
+
+  if (select == undefined) {
+    select = function (x) { return x; };
+  }
 
   var lastquery;
 
@@ -18,7 +22,7 @@
     apply(Search(basequery));
   };
 
-  $scope.ResetSearch = function() {
+  $scope.ResetSearch = function () {
     ResetSearch();
     $scope.Search();
   };
@@ -27,16 +31,20 @@
     lastquery = querya;
     var pagequery = lastquery
       .skip($scope.perpage * ($scope.page - 1))
-      .take($scope.perpage)
-      .inlineCount(true);
+      .take($scope.perpage);
+    lastquery.select("Id").take(1).inlineCount(true).execute().then(function (data) {
+      $scope.inlineCount = data.inlineCount;
+      $scope.$apply();
+    });
 
-    pagequery.execute().then(function (data) {
+    select(pagequery).execute().then(function (data) {
       $scope.opacity = 1;
       $scope.data = data.results;
-      $scope.inlineCount = data.inlineCount;
       $scope.lastpage = Math.ceil($scope.inlineCount / $scope.perpage);
       $scope.last = Math.min((($scope.page) * $scope.perpage) + 1, $scope.inlineCount);
-      $scope.$apply();
+      if ($scope.inlineCount != undefined) {
+        $scope.$apply();
+      }
     });
   };
 
